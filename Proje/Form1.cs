@@ -22,13 +22,13 @@ namespace Proje
         {
 
 
-            // TextBox'lardan veriyi al
+            
             string ad = txt_ad.Text;
             string soyad = txt_soyad.Text;
             int numara = int.Parse(txt_numara.Text);
             var selectedItem = cmb_sinifsec.SelectedItem as Sinif;
             Sinif sinif = selectedItem;
-            // Yeni bir Kisi nesnesi oluþtur
+            
             Ogrenci Ogr = new Ogrenci
             {
                 Ad = ad,
@@ -37,16 +37,16 @@ namespace Proje
                 SinifId = sinif.SinifId
             };
 
-            // DbContext kullanarak veriyi ekle
+            
             using (var context = new OgrenciDbContext())
             {
-                context.tblOgrenciler.Add(Ogr); // Yeni kiþiyi Kisiler tablosuna ekle
-                context.SaveChanges(); // Deðiþiklikleri kaydet
+                context.tblOgrenciler.Add(Ogr); // Yeni kiÅŸiyi Kisiler tablosuna ekle
+                context.SaveChanges(); // DeÄŸiÅŸiklikleri kaydet
                 this.ogr = Ogr;
             }
 
-            // Kullanýcýya baþarý mesajý göster
-            MessageBox.Show("Kiþi baþarýyla kaydedildi.");
+            
+            MessageBox.Show("KiÅŸi baÅŸarÄ±yla kaydedildi.");
 
 
 
@@ -58,13 +58,13 @@ namespace Proje
             {
                 using (var context = new OgrenciDbContext())
                 {
-                    // Siniflar tablosundaki tüm sýnýf adlarýný alýyoruz
+                    
                     var siniflar = context.tblSiniflar.ToList();
 
-                    // ComboBox’a sýnýf adlarýný ekliyoruz
+                    
                     cmb_sinifsec.DataSource = siniflar;
-                    cmb_sinifsec.DisplayMember = "SinifAd"; // ComboBox'ta görünen sýnýf adý
-                    cmb_sinifsec.ValueMember = "SinifId"; // Seçilen deðerin SinifId olduðunu belirtiyoruz
+                    cmb_sinifsec.DisplayMember = "SinifAd";
+                    cmb_sinifsec.ValueMember = "SinifId"; 
                 }
             }
 
@@ -82,29 +82,29 @@ namespace Proje
 
             if (num <= 0)
             {
-                MessageBox.Show("Numara tanýnmadý");
+                MessageBox.Show("Numara tanÄ±nmadÄ±");
                 return;
             }
 
-            // Veritabaný baðlantýsýný açýyoruz ve gerekli iþlemi yapýyoruz
+            //VeritabanÄ± baÄŸlantÄ±sÄ±
             using (var context = new OgrenciDbContext())
             {
-                // Öðrencinin adý ve soyadýna göre sorgulama
-                var ogrenci = context.tblOgrenciler.FirstOrDefault(o => o.Numara == num); // Ad ve Soyad eþleþtirme
+                
+                var ogrenci = context.tblOgrenciler.FirstOrDefault(o => o.Numara == num); 
 
                 if (ogrenci != null)
                 {
                     txt_ad.Text = ogrenci.Ad;
                     txt_soyad.Text = ogrenci.Soyad;
-                    // Öðrenci bulunduysa, SinifId'sine baðlý olarak SinifAd'ý çekiyoruz
-                    var Sinif = context.tblSiniflar.FirstOrDefault(s => s.SinifId == ogrenci.SinifId); // SinifAd bilgisi
+                    
+                    var Sinif = context.tblSiniflar.FirstOrDefault(s => s.SinifId == ogrenci.SinifId); 
                     if (Sinif != null)
-                        cmb_sinifsec.SelectedItem = Sinif; // ComboBox'a SinifAd'ý set ediyoruz
+                        cmb_sinifsec.SelectedItem = Sinif; 
                     this.ogr=ogrenci;
                 }
                 else
                 {
-                    MessageBox.Show("Öðrenci bulunamadý.");
+                    MessageBox.Show("Ã–ÄŸrenci bulunamadÄ±.");
                 }
             }
 
